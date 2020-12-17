@@ -76,6 +76,6 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "10.00.0"
+    "node": "10.10.0"
   }
 }
