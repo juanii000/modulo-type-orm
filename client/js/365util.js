@@ -2,7 +2,18 @@ let btnSelect = document.querySelector("#btnSelect");
 btnSelect.addEventListener("click", selectNumber);
 let numeros = [];
 
-function mostrarTablaCompras() {
+async function mostrar() {
+
+    let response = await llamarBack("GET", '/numbers-app');
+        if (response.ok) {
+            
+            let t = await response.json();
+            numeros = [...t];
+
+        } else {
+            container.innerHTML = "<h1>Error - Failed URL!</h1>";
+        }
+
     let html = "";
     for (let i = 0; i < numeros.length; i++) {
         r = numeros[i];
@@ -44,18 +55,6 @@ async function selectNumber() {
     let h1 = document.createElement('h1');
     h1.innerHTML = 'Loading';
     container.appendChild(h1);
-    
-        let response = await llamarBack("GET", '/numbers-app');
-        if (response.ok) {
-            
-            let t = await response.json();
-            numeros = [...t];
-
-        } else {
-            container.innerHTML = "<h1>Error - Failed URL!</h1>";
-        }
-
-        mostrarTablaCompras();
 
         let randomNumber = Math.floor(Math.random() * 366) + 1;
 
@@ -77,7 +76,7 @@ async function selectNumber() {
         }
         
         h1.parentNode.removeChild(h1);
-        mostrarTablaCompras();
+        mostrar();
      
 }
 
@@ -94,3 +93,5 @@ async function llamarBack(verbo, path, body = null) {
     let response = await fetch(path, request);
     return response;
 }
+
+mostrar();
